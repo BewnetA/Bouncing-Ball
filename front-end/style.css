@@ -1,0 +1,91 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #0a0a0a;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    position: relative;
+    width: 400px;
+    height: 600px;
+    border: 2px solid black;
+    background: repeating-linear-gradient(to right,
+    #00FFFF, 
+     rgb(155, 252, 252));
+    
+    overflow: hidden;
+    animation: 3s linear infinite;
+}
+
+#road {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 50px;
+    background: repeating-linear-gradient(
+        to right,
+        #d8d6d6,
+        #6c757d 20px,
+        #343a40 20px,
+        #343a40 40px
+    );
+    animation: move-road 3s linear infinite;
+}
+
+#ball {
+    position: absolute;
+    bottom: 50px; /* Above the road */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    border-radius: 50%;
+    animation: bounce 1s ease-in-out infinite;
+}
+
+/* Ball bounce animation */
+@keyframes bounce {
+    0%, 100% {
+        transform: translate(-50%, 0px); /* Ground level */
+    }
+    50% {
+        transform: translate(-50%, -180px); /* Peak height */
+    }
+}
+
+/* Road movement animation */
+@keyframes move-road {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+#controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
