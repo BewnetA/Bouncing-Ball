@@ -1,4 +1,4 @@
 module.exports = {
-    telegramToken: '8158052145:AAHJo7QBL34XJIjxm4U7BEQl1e1xT_s-Mtc',
-    websocketPort: 8080, // Or any other port
+    telegramToken: process.env.TELEGRAM_TOKEN,  // No need for a .env file, you can set this directly in Render
+    websocketPort: process.env.PORT || 8080,    // Use Render's default port
 };
