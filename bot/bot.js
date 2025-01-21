@@ -2,11 +2,11 @@ const { Telegraf } = require("telegraf");
 const WebSocket = require("ws");
 
 // Telegram Bot Token
-const BOT_TOKEN = "8158052145:AAHJo7QBL34XJIjxm4U7BEQl1e1xT_s-Mtc";
+const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new Telegraf(BOT_TOKEN);
 
 // WebSocket connection (Updated to connect to back-end server on port 8080)
-const ws = new WebSocket("wss://bouncing-ball-websocket.onrender.com");  // Updated to Render's WebSocket URL
+const ws = new WebSocket("wss://bouncing-ball-websocket.onrender.com"); // Updated to Render's WebSocket URL
 
 ws.on("open", () => {
   console.log("Connected to WebSocket server on ws://localhost:8080");
