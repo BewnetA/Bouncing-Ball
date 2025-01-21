@@ -3,18 +3,35 @@ const { websocketPort } = require('./config');
 
 const wss = new WebSocket.Server({ port: websocketPort });
 
-wss.on('connection', (ws) => {
-    console.log('Client connected.');
+// Store user-to-client associations (mapping userId to WebSocket connection)
+const userConnections = new Map();
 
-    ws.on('message', (message)  => {
+wss.on('connection', (ws, req) => {
+    console.log('Client connected.');
+    
+    ws.on('message', (message) => {
         const data = JSON.parse(message);
         console.log('Message received:', data);
-        console.log('Message received from bot:', data);
 
-        // Broadcast to all connected clients
-        wss.clients.forEach((client) => {
-            if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify(data));
+        // Handle action received from the bot
+        const { action, userId } = data;
+
+        // Store the WebSocket connection associated with the userId
+        userConnections.set(userId, ws);
+        
+        // Broadcast the action to the web app 
+        const userClient = userConnections.get(userId);
+        if (userClient && userClient.readyState === WebSocket.OPEN) {
+            userClient.send(JSON.stringify({ action, userId }));
+        }
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected.');
+        // Clean up the connection when a client disconnects
+        userConnections.forEach((client, userId) => {
+            if (client === ws) {
+                userConnections.delete(userId);
             }
         });
     });
