@@ -8,8 +8,8 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (message)  => {
         const data = JSON.parse(message);
-        console.log('Message received:', data);
-        console.log('Message received from bot:', data);
+        // console.log('Message received:', data);
+        // console.log('Message received from bot:', data);
 
         // Broadcast to all connected clients
         wss.clients.forEach((client) => {

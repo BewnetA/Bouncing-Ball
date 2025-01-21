@@ -42,6 +42,7 @@ body {
     bottom: 50px; /* Above the road */
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 2px 5px 5px;
     width: 30px;
     height: 30px;
     background-color: red;
@@ -63,9 +64,11 @@ body {
 @keyframes move-road {
     from {
         transform: translateX(0);
+        box-shadow: 2px -3px 5px;
     }
     to {
         transform: translateX(-50%);
+        box-shadow: 2px -3px 5px;
     }
 }
 

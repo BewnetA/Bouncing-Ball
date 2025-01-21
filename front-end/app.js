@@ -10,7 +10,7 @@ const minSpeed = 5; // Minimum speed (longest animation duration in seconds);
 // Initialize Telegram WebApp
 Telegram.WebApp.ready();
 
-const socket = new WebSocket('ws://localhost:8080'); // Replace with backend WebSocket URL
+const socket = new WebSocket('wss://websocket-.glitch.me'); // Replace with backend WebSocket URL
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
@@ -40,7 +40,7 @@ socket.onmessage = (event) => {
 // Update road and ball animations with the current speed
 function updateAnimations() {
     const roadDuration = `${speed}s`;
-    const ballDuration = `${speed / 3}s`; // Ball bounces faster as speed increases
+    const ballDuration = `${speed / 5}s`; // Ball bounces faster as speed increases
 
     road.style.animation = `move-road ${roadDuration} linear infinite ${
         direction === "left" ? "normal" : "reverse"
