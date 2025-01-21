@@ -2,14 +2,14 @@ const { Telegraf } = require("telegraf");
 const WebSocket = require("ws");
 
 // Telegram Bot Token
-const BOT_TOKEN = process.env.BOT_TOKEN;
+const BOT_TOKEN = "8158052145:AAHJo7QBL34XJIjxm4U7BEQl1e1xT_s-Mtc";
 const bot = new Telegraf(BOT_TOKEN);
 
 // WebSocket connection (Updated to connect to back-end server on port 8080)
-const ws = new WebSocket("wss://websocket-.glitch.me"); // WebSocket URL for back-end server
+const ws = new WebSocket("ws://localhost:8080"); // WebSocket URL for back-end server
 
 ws.on("open", () => {
-  console.log("Connected to WebSocket server on ws://websocket-.glitch.me");
+  console.log("Connected to WebSocket server on ws://localhost:8080");
 });
 
 // Handle /start command
