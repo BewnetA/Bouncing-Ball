@@ -10,7 +10,7 @@ const minSpeed = 5; // Minimum speed (longest animation duration in seconds);
 // Initialize Telegram WebApp
 Telegram.WebApp.ready();
 
-const socket = new WebSocket('ws://websocket-.glitch.me'); // Replace with backend WebSocket URL
+const socket = new WebSocket('wss://bouncing-ball-websocket.onrender.com'); // Replace with backend WebSocket URL
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
