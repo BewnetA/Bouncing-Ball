@@ -2,7 +2,7 @@ const { Telegraf } = require("telegraf");
 const WebSocket = require("ws");
 
 // Telegram Bot Token
-const BOT_TOKEN = "8158052145:AAHJo7QBL34XJIjxm4U7BEQl1e1xT_s-Mtc";
+const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new Telegraf(BOT_TOKEN);
 
 // WebSocket connection
@@ -29,11 +29,10 @@ bot.command("controls", (ctx) => {
   ctx.reply("Control options:", {
     reply_markup: {
       inline_keyboard: [
-        [{ text: "Start", callback_data: "start" }],
-        [{ text: "Stop", callback_data: "stop" }],
-        [{ text: "Speed Up", callback_data: "speedUp" }],
-        [{ text: "Slow Down", callback_data: "speedDown" }],
-        [{ text: "Reverse", callback_data: "reverse" }],
+        [{ text: "Start", callback_data: "start" },{ text: "Stop", callback_data: "stop" }],
+        [{ text: "Speed Up", callback_data: "speedUp" },
+            { text: "Slow Down", callback_data: "speedDown" },
+            { text: "Reverse", callback_data: "reverse" }],
         [
           {
             text: "Start Web App",
@@ -50,9 +49,10 @@ bot.command("controls", (ctx) => {
 // Handle callback queries
 bot.on("callback_query", (ctx) => {
   const action = ctx.callbackQuery.data;
-  const userId = ctx.from.id; // Automatically get user ID from context
 
   if (action === "register") {
+    const userId = ctx.from.id;
+
     if (registeredUsers.has(userId)) {
       ctx.reply("You are already registered!");
     } else {
@@ -62,13 +62,9 @@ bot.on("callback_query", (ctx) => {
   } else if (
     ["start", "stop", "speedUp", "speedDown", "reverse"].includes(action)
   ) {
-    // Send action and user ID to WebSocket server
+    // Broadcast action to WebSocket server (back-end)
     if (ws.readyState === WebSocket.OPEN) {
-      const message = {
-        action,
-        userId, // Send user ID automatically with the action
-      };
-      ws.send(JSON.stringify(message));
+      ws.send(JSON.stringify({ action }));
     }
   }
 });

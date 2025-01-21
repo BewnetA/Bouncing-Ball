@@ -50,6 +50,9 @@ function updateAnimations() {
 
 // Start the game
 function startGame() {
+    if(isRunning){
+        alert("The ball is already started")
+    }
     updateAnimations();
     isRunning = true;
     road.style.animationPlayState = "running";
@@ -58,6 +61,9 @@ function startGame() {
 
 // Stop the game (ball settles on the road)
 function stopGame() {
+    if(!isRunning){
+        alert("The ball is already stoped")
+    }
     isRunning = false;
     road.style.animationPlayState = "paused";
     ball.style.animationPlayState = "paused";
