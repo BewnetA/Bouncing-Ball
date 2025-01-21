@@ -2,7 +2,7 @@ const { Telegraf } = require("telegraf");
 const WebSocket = require("ws");
 
 // Telegram Bot Token
-const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
+const BOT_TOKEN = "8158052145:AAHJo7QBL34XJIjxm4U7BEQl1e1xT_s-Mtc";
 const bot = new Telegraf(BOT_TOKEN);
 
 // WebSocket connection (Updated to connect to back-end server on port 8080)
