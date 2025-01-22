@@ -1,7 +1,6 @@
 const { Telegraf } = require("telegraf");
 const WebSocket = require("ws");
 
-// Telegram Bot Token
 const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new Telegraf(BOT_TOKEN);
 
@@ -29,10 +28,15 @@ bot.command("controls", (ctx) => {
   ctx.reply("Control options:", {
     reply_markup: {
       inline_keyboard: [
-        [{ text: "Start", callback_data: "start" },{ text: "Stop", callback_data: "stop" }],
-        [{ text: "Speed Up", callback_data: "speedUp" },
-            { text: "Slow Down", callback_data: "speedDown" },
-            { text: "Reverse", callback_data: "reverse" }],
+        [
+          { text: "Start", callback_data: "start" },
+          { text: "Stop", callback_data: "stop" },
+        ],
+        [
+          { text: "Speed Up", callback_data: "speedUp" },
+          { text: "Slow Down", callback_data: "speedDown" },
+          { text: "Reverse", callback_data: "reverse" },
+        ],
         [
           {
             text: "Start Web App",
@@ -62,13 +66,19 @@ bot.on("callback_query", (ctx) => {
   } else if (
     ["start", "stop", "speedUp", "speedDown", "reverse"].includes(action)
   ) {
-    // Broadcast action to WebSocket server (back-end)
+    // Broadcast action to WebSocket server
     if (ws.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify({ action }));
     }
   }
 });
 
-// Launch the bot
-bot.launch();
-console.log("Telegram bot running with Web App and enhanced controls...");
+// Set webhook
+const domain = "https://bouncing-ball-bot.vercel.app/"; // Replace with your Vercel domain
+bot.telegram.setWebhook(`${domain}/api/bot`);
+
+// Webhook handler
+exports.handler = async (req, res) => {
+  await bot.handleUpdate(req.body);
+  res.status(200).send("OK");
+};
